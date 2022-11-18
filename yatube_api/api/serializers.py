@@ -1,9 +1,5 @@
 from rest_framework import serializers, validators
-from posts.models import Comment, Post, Group, Follow
-from django.contrib.auth import get_user_model
-
-
-User = get_user_model()
+from posts.models import Comment, Post, Group, Follow, User
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -12,7 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = '__all__'
+        fields = ('id', 'text', 'author', 'image', 'group', 'pub_date',)
         model = Post
 
 
@@ -22,7 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = '__all__'
+        fields = ('id', 'author', 'post', 'text', 'created',)
         model = Comment
         read_only_fields = ('post', 'author',)
 
@@ -30,7 +26,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
+        fields = ('id', 'title', 'slug', 'description',)
         model = Group
 
 

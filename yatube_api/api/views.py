@@ -1,5 +1,5 @@
-from rest_framework import viewsets, pagination, filters
-from posts.models import Post, Group, Follow
+from rest_framework import viewsets, pagination, filters, mixins
+from posts.models import Post, Group, User
 from . import serializers, permissions
 from .serializers import CommentSerializer
 from django.shortcuts import get_object_or_404
@@ -37,13 +37,15 @@ class CommentViewSet(viewsets.ModelViewSet):
         return self.__get_post().comments.all()
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     serializer_class = serializers.FollowSerializer
     filter_backends = (filters.SearchFilter, )
     search_fields = ('following__username', 'user__username', )
 
     def get_queryset(self):
-        return Follow.objects.filter(user=self.request.user).all()
+        user = get_object_or_404(User, id=self.request.user.id)
+        return user.follower.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
