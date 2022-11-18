@@ -178,4 +178,4 @@ Status code: 404
 
 ### Автор:
 tlg: @minigraf
-mail: minigraph@yandex.ru; maikl.nikitin@yahoo.com;
+e-mail: minigraph@yandex.ru; maikl.nikitin@yahoo.com;
